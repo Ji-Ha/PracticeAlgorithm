@@ -1,4 +1,5 @@
 #include <vector>
+//프로그래머스 타겟 넘버.
 
 using namespace std;
 
