@@ -1,9 +1,10 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
+const int MAX_VALUE = 10;
 int n, m;
-bool areFriends[10][10] = {0,};
-bool taken[10] = {0, };
+bool areFriends[MAX_VALUE][MAX_VALUE];
+bool taken[MAX_VALUE];
 
 int makePicnicMember(){
     int whoLeft = -1;
