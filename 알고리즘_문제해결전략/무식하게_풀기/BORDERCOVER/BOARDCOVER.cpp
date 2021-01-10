@@ -3,6 +3,11 @@
 #include <string>
 using namespace std;
 
+const int TYPE_BLOCK_NUMBER = 3;
+const int TYPE_NUMBER = 4;
+const int X = 1;
+const int Y = 1;
+
 const int coverType[4][3][2] = {
     {{0, 0}, {1, 0}, {0, 1}},
     {{0, 0}, {0, 1}, {1, 1}},
@@ -12,10 +17,10 @@ const int coverType[4][3][2] = {
 
 bool set(vector<vector<int>> &board, int y, int x, int type, int delta){
   bool ok = true;
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < TYPE_BLOCK_NUMBER; i++)
   {
-    int ny = y + coverType[type][i][0];
-    int nx = x + coverType[type][i][1];
+    int ny = y + coverType[type][i][Y];
+    int nx = x + coverType[type][i][X];
 
     if(ny < 0 || ny >= board.size() || nx < 0 || nx >= board[0].size())
       ok = false;
@@ -46,7 +51,7 @@ int cover(vector<vector<int>> &board){
     return 1;
   
   int result = 0;
-  for (int type = 0; type < 4; type++){
+  for (int type = 0; type < TYPE_NUMBER; type++){
     if (set(board, y, x, type, 1))
       result += cover(board);
     set(board, y, x, type, -1);
