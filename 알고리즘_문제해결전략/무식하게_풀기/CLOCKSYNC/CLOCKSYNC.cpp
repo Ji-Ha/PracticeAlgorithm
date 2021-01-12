@@ -57,7 +57,11 @@ int main(){
     for(int i = 0; i<CLOCKS; i++){
       cin >> clock[i];
     }
-    cout << solution(clock, 0)<< endl;
+    int answer = solution(clock, 0);
+    if(answer == INF)
+      cout << -1 << endl;
+    if(answer != INF)
+      cout << answer << endl;
   }
   return 0;
 }
