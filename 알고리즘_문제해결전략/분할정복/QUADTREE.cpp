@@ -1,37 +1,33 @@
 #include <iostream>
-#include <vector>
 #include <string>
-#include <algorithm>
 
 using namespace std;
 
-const int QUADRANT = 4;
+string solution(string::iterator& it){
+  char head = *it;
+  ++it;
 
-string split(string splitQuadTree, int start){
-  return splitQuadTree.substr(start, splitQuadTree.length());
-}
+  if(head == 'b' || head == 'w')
+    return string(1, head);
 
-string result(string quadTree){
-  bool end = true;
-  string up;
-  string down;
+  string upperLeft = solution(it);
+  string upperRight = solution(it);
+  string lowerLeft = solution(it);
+  string lowerRight = solution(it);
 
-  for(int i = 0; i<quadTree.length();i++){
-    if(quadTree[i] == 'x'){
-      result(split(quadTree, i));
-      end = false;
-    }
-  }
+  return string("x") + lowerLeft + lowerRight + upperLeft + upperRight;
 }
 
 int main(){
   int testCase = 0;
+  string str;
   cin >> testCase;
 
-  for(int i = 0; i<testCase; i++){
-    string quadTree;
-    cin >> quadTree;
-    result(quadTree);
+  for(int t = 0; t < testCase; t++){
+    
+    cin >> str;
+    string::iterator it = str.begin();
+    cout << solution(it) << endl;
   }
   return 0;
 }
