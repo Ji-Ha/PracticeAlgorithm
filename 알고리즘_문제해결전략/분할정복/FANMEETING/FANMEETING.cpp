@@ -5,6 +5,8 @@
 
 using namespace std;
 
+//하.. 코드가 너무 난잡하다.
+
 int C;
 vector<int> multiply(const vector<int>& a, const vector<int>& b)
 {

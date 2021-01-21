@@ -1,4 +1,0 @@
-konlpy
-joblib
-fasttext
-hgtk
