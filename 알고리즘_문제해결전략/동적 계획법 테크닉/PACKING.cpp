@@ -1,60 +1,69 @@
 #include <iostream>
+#include <vector>
 #include <algorithm>
 #include <string>
-#include <memory.h>
-#include <vector>
+#include <cstring> //memset
 using namespace std;
 
-int n, w;
+int total, capacity;        //총 아이템 양과 가방 용량
+int volume[100], need[100]; //물건의 부피와 절박도
+int cache[1001][100];
 string name[100];
-int volume[100];
-int importance[100];
-int cache[1000][100];
-vector<string> answer;
 
-int solution(int capacity, int item){
-  if(item == n) return 0;
-  int& res = cache[capacity][item];
-  if(res != -1) return res;
+int pack(int capacity, int item)
+{
+  if (item == total)
+    return 0;
 
-  res = solution(capacity, item - 1);
+  int &result = cache[capacity][item];
 
-  if(capacity >= volume[item])
-    res = max(res, solution(capacity - volume[item], item - 1)) + importance[item];
+  if (result != -1)
+    return result;
 
-  return res;
+  result = pack(capacity, item + 1);
+
+  if (capacity >= volume[item])
+    result = max(result, pack(capacity - volume[item], item + 1) + need[item]);
+
+  return result;
 }
 
-void reconstruct(int capacity, int item){
-  if(item == n + 1) return;
-  if(solution(capacity, item) == solution(capacity, item + 1))
-    reconstruct(capacity, item + 1);
-  else{
-    answer.push_back(name[item]);
-    reconstruct(capacity - volume[item], item + 1);
+//여행 짐싸기 문제의 답 역추적하는 재귀 호출 알고리즘
+
+void reconstruct(int capacity, int item, vector<string> &picked)
+{
+  if (item == total)
+    return;
+
+  if (pack(capacity, item) == pack(capacity, item + 1)) //item을 선택하지 않아도 최대 절박도 동일(즉, item 선택 안해도 된다)
+    reconstruct(capacity, item + 1, picked);
+  else
+  {
+    picked.push_back(name[item]); //item 선택
+    reconstruct(capacity - volume[item], item + 1, picked);
   }
 }
 
-void init(){
-  memset(cache, -1, sizeof(cache));
-  
-  answer.clear();
-}
+int main(void)
+{
+  int test_case;
+  cin >> test_case;
 
-int main(){
-  int c;
-  cin >> c;
-  
-  while(c--){
-    init();
-    cin >> n >> w;
-    for(int i = 0; i < n; i++)
-      cin >> name[i] >> volume[i] >> importance[i];
+  for (int i = 0; i < test_case; i++)
+  {
+    vector<string> picked;
+    cin >> total >> capacity;
+
+    for (int j = 0; j < total; j++)
+      cin >> name[j] >> volume[j] >> need[j];
     
-    reconstruct(w, 0);
-    cout << solution(w, 0) << " " << answer.size() << '\n';
-    for(int i = 0; i < answer.size(); i++)
-      cout << answer[i] << "\n";
+    memset(cache, -1, sizeof(cache));
+    reconstruct(capacity, 0, picked);
+
+    cout << pack(capacity, 0) << " " << picked.size() << endl;
+
+    for (int j = 0; j < picked.size(); j++)
+      cout << picked[j] << endl;
   }
   return 0;
 }
