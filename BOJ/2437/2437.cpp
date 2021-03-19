@@ -1,28 +1,21 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
-int sinker[1000];
 
+int N;
+int arr[1000];
 
-int main(){
-    int n;
-    
-    cin >> n;
+int main() {
+	cin >> N;
+	for (int i = 0; i < N; i++)
+		cin >> arr[i];
+	sort(arr, arr + N);
 
-    for(int i = 0; i < n; i++)
-        cin >> sinker[i];
-    
-    sort(sinker, sinker + n);
-
-    int sum = sinker[0];
-    int res = 0;
-    for(int i = 1; i < n; i++){
-        if(sum + 1 < sinker[i]) {
-            res = sum + 1;
-            break;
-        }
-        sum += sinker[i];
-    }
-    cout << sum + 1 << '\n';
-    return 0;
+	int sum = 0;
+	for (int i = 0; i < N; i++) {
+		if (sum + 2 <= arr[i]) break;
+		sum += arr[i];
+	}
+	cout << sum + 1 << endl;
+	return 0;
 }

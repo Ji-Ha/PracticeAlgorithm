@@ -1,39 +1,38 @@
 #include <iostream>
-#include <queue>
+#include <vector>
 #include <algorithm>
 using namespace std;
 
 int main(){
-    priority_queue <pair<int, int>, vector<pair<int, int> >, greater<pair<int, int> > > lines;
+    ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cout.tie(nullptr);
+
     int n;
     cin >> n;
+    vector<pair<int, int> > lines(n);
 
     for(int i = 0; i < n; i++){
-        int x, y;
-        cin >> x >> y;
-        lines.push(make_pair(x, y));
+        int start, end;
+        cin >> start >> end;
+        lines[i].first = start;
+        lines[i].second = end;
     }
 
-    int start = lines.top().first;
-    int end = lines.top().second;
-    int longestLine = end - start + 1;
-    lines.pop();
+    sort(lines.begin(), lines.end());
 
-    while(!lines.empty()){
-        int nextX = lines.top().first;
-        int nextY = lines.top().second;
+    int res = 0;
+    int start = lines[0].first, end = lines[0].second;
 
-        if(end >= nextX){
-            end = nextY;
-        }
+    for(int i = 1; i < n; i++){
+        if(lines[i].first <= end) end = max(end, lines[i].second);
         else{
-            longestLine = max(longestLine, end - start + 1);
-            start = nextX;
-            end = nextY;
+            res += end - start;
+            start = lines[i].first;
+            end = lines[i].second;
         }
-        lines.pop();
     }
-
-    cout << longestLine << '\n';
+    res += end - start;
+    cout << res << '\n';
     return 0;
 }
