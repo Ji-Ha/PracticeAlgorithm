@@ -1,22 +1,20 @@
 #include <iostream>
-#include <string>
 #include <algorithm>
+#include <memory.h>
 using namespace std;
-string first;
-string second;
+char first[1001], second[1001];
 int dp[1001][1001];
 
 int main(){
+    memset(dp, 0, sizeof(dp));
     cin >> first;
     cin >> second;
+    int firstSize = strlen(first);
+    int secondSize = strlen(second);
 
-    for(int i = 0; i < first.length(); i++){
-        for(int j = 0; j < second.length(); j++){
-            if(i == 0 || j == 0){
-                dp[i][j] = 0;
-                continue;
-            }
-            if(first[i] == second[j]){
+    for(int i = 1; i <= firstSize; i++){
+        for(int j = 1; j <= secondSize; j++){
+            if(first[i - 1] == second[j - 1]){
                 dp[i][j] = dp[i - 1][j - 1] + 1;
             }
             else{
@@ -24,6 +22,6 @@ int main(){
             }
         }
     }
-    cout << dp[first.length() - 1][second.length() - 1] << '\n';
+    cout << dp[firstSize][secondSize] << '\n';
     return 0;
 }
