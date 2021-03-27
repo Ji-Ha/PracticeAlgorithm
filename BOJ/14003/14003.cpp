@@ -1,43 +1,35 @@
-#include <iostream>
+#include <cstdio>
 #include <vector>
+#include <algorithm>
 using namespace std;
-int value[1000001];
+
+int n, arr[1000001], p[1000001], cnt;
+vector<int> ans, print;
 
 int main(){
-    vector<int> lis;
-    vector<int> staack;
-    vector<int> ans;
-    int count = 0;
-    int n;
-    cin >> n;
-
-    for(int i = 0; i < n; i++){
-        cin >> value[i];
-        if(i == 0 || lis.back() < value[i]){
-            lis.push_back(value[i]);
-            staack.push_back(count);
-            count++;
+    scanf("%d", &n);
+    for(int i = 1; i <= n; i++) scanf("%d", &arr[i]);
+    ans.push_back(arr[1]);
+    for(int i = 2; i <= n; i++){
+        if(ans[cnt] < arr[i]){
+            ans.push_back(arr[i]), cnt++;
+            p[i] = cnt;
         }
         else{
-            vector<int>:: iterator low = lower_bound(lis.begin(), lis.end(), value[i]);
-            *low = value[i];
-            staack.push_back(count);
-        }
-
-    }
-    cout << count << '\n';
-    
-    count--;
-    for(int i = n - 1; i >= 0; i--){
-        if(count == staack[i]){
-            ans.push_back(value[i]);
-            count--;
-        }
+            int pos = lower_bound(ans.begin(), ans.end(), arr[i]) - ans.begin();
+            ans[pos] = arr[i];
+            p[i] = pos;
+        } 
     }
 
-    while(!ans.empty()){
-        cout << ans.back() << ' ';
-        ans.pop_back();
+    printf("%d\n", cnt + 1);
+    for(int i = n; i >= 1 && cnt >= 0; i--){
+        if(p[i] == cnt){
+            print.push_back(arr[i]);
+            cnt--;
+        }
     }
-    return 0;
+    for(int i = print.size() - 1; i >= 0; i--){
+        printf("%d ", print[i]);
+    }
 }
