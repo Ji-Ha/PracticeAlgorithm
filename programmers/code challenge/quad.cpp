@@ -2,29 +2,47 @@
 #include <vector>
 
 using namespace std;
-vector<vector<int>> a;
-vector<int> ans;
+vector<vector<int>> temp;
+vector<int> answer;
 
-int check(int y, int x, int length){
-    int stat = a[y][x];
+bool check(int y, int x, int length){
+    bool checker = true;
+    int target = temp[y][x];
     for(int i = y; i < y + length; i++){
         for(int j = x; j < x + length; j++){
-            if(stat != a[y][x]) return -1;
+            if(temp[i][j] != target){
+                return checker = false;
+            }
         }
     }
-    return stat;
+    return checker;
 }
 
 void block(int y, int x, int length){
-    int checker = check(y, x, length);
-    if(checker == -1){
-        block()
+    if(check(y, x, length)) answer.push_back(temp[y][x]);
+    else{
+        int y_mid = y + (length / 2);
+        int x_mid = x + (length / 2);
+        block(y, x, length / 2);
+        block(y, x_mid, length / 2);
+        block(y_mid, x, length / 2);
+        block(y_mid, x_mid, length/ 2);
     }
-    ans.push_back(checker);
 }
 
 vector<int> solution(vector<vector<int>> arr) {
-    vector<int> answer;
-    a = arr;
-    return answer;
+    vector<int> ans;
+    temp = arr;
+    block(0, 0, arr.size());
+    int one = 0;
+    int zero = 0;
+    
+    for(int i = 0 ; i < answer.size(); i++){
+        if(answer[i] == 1) one++;
+        else zero++;
+    }
+    ans.push_back(zero);
+    ans.push_back(one);
+    
+    return ans;
 }
