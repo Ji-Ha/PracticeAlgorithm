@@ -23,10 +23,9 @@ int main(){
     int n;
     cin >> n;
 
-    for(int i = 0; i < n; i++){
+    for(int i = 0; i < n; i++)
         cin >> value[i][0] >> value[i][1];
-        memo[value[i][0]][value[i][1]] = value[i][0] * value[i][1];
-    }
+    
     solution(0, n - 1);
     cout << memo[0][n - 1] << '\n';
     return 0;

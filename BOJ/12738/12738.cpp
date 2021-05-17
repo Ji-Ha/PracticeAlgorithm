@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 using namespace std;
+//위치를 lis 값으로 저장한다면? 풀 수 있을 것이다.
+
 
 int main(){
     vector<int> lis;
