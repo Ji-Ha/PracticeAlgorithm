@@ -1,27 +1,47 @@
 #include <iostream>
 #include <vector>
+#include <memory.h>
 using namespace std;
 int citizen[10001];
 vector<int> city[10001];
+vector<int> tree[10001];
+int cache[10001][2];
 bool check[10001];
 
-int dfs(int cur, bool flag){
-    int ans = 0;
-    check[cur] = true;
+int usu(int cur, bool flag){
+    int &res = cache[cur][flag];
+    if(res != -1) return res;
+    res = 0;
 
-    for(int i = 0; i < city[cur].size(); i++){
-        int next = city[cur][i];
-        if(check[next]) continue;
+    for(int i = 0; i < tree[cur].size(); i++){
+        int next = tree[cur][i];
+        int first = usu(next, false);
+        int second = -1;
 
-        if(flag) ans += dfs(next, false);
-        else ans += max(dfs(next, false), dfs(next, true) + citizen[next]);
+        if(!flag) second = usu(next, true);
+        
+        res += max(first, second);
     }
+    if(flag) res += citizen[cur];
 
-    check[cur] = false;
-    return ans;
+    return res;
+}
+
+void makeTree(int index){
+    for(int i = 0; i < city[index].size(); i++){
+        int next = city[index][i];
+        if(!check[next]){
+            tree[index].push_back(next);
+            check[next] = true;
+
+            makeTree(next);
+        }
+    }
 }
 
 int main(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
     int n, c;
     int u, v;
     cin >> n;
@@ -37,6 +57,11 @@ int main(){
         city[v].push_back(u);
     }
 
-    cout << max(dfs(1, 0), dfs(1, 1) + citizen[1]) << '\n';
+    int root = 1;
+    check[root] = true;
+    makeTree(root);
+    memset(cache, -1, sizeof(cache));
+
+    cout << max(usu(1, true), usu(1, false)) << '\n';
     return 0;
 }
