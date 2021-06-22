@@ -11,13 +11,13 @@ bool checkCross(pair<int, int> now){
 }
 
 void move(pair<int, int> h, pair<int, int> t){
+    if(t.first < 1 || t.second < 1 || t.first > n || t.second > n || board[t.first][t.second] == 1)
+        return ;
+
     if(t.first == n && t.second == n){
         ans++;
         return ;
     }
-
-    if(t.first < 1 || t.second < 1 || t.first > n || t.second > n || board[t.first][t.second] == 1)
-        return ;
 
     int dx = abs(t.second - h.second);
     int dy = abs(t.first - h.first);

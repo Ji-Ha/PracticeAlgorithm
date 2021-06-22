@@ -1,0 +1,44 @@
+package coding_test;
+
+import java.util.LinkedList;
+import java.util.Scanner;
+
+public class solv {
+    static int n;
+    static LinkedList<Integer>[] friends;
+    static int[][] memo;
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args){
+        int u, v;
+        n = sc.nextInt();
+        friends = new LinkedList[n + 1];
+        memo = new int[n + 1][2];
+
+        for(int i = 1; i <= n; i++)
+            friends[i] = new LinkedList<Integer>();
+
+        for(int i = 0; i < n - 1; i++){
+            u = sc.nextInt(); v = sc.nextInt();
+
+            friends[u].add(v);
+            friends[v].add(u);
+        }
+        ans(1, -1);
+
+        System.out.println(Math.min(memo[1][0], memo[1][1]));
+    }
+
+    static void ans(int cur, int par){
+        memo[cur][0] = 0;
+        memo[cur][1] = 1;
+
+        for(int next : friends[cur]){
+            if(next != par){
+                ans(next, cur);
+                memo[cur][0] += memo[next][1];
+                memo[cur][1] += Math.min(memo[next][0], memo[next][1]);
+            }
+        }
+    }
+}
