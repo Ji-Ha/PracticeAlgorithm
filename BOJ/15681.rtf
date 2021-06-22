@@ -1,0 +1,179 @@
+{\rtf1\ansi\ansicpg949\cocoartf2578
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fmodern\fcharset0 Courier;\f1\fmodern\fcharset0 Courier-Oblique;}
+{\colortbl;\red255\green255\blue255;\red191\green100\blue38;\red32\green32\blue32;\red153\green168\blue186;
+\red133\green96\blue154;\red254\green187\blue91;\red86\green132\blue173;}
+{\*\expandedcolortbl;;\csgenericrgb\c74902\c39216\c14902;\csgenericrgb\c12549\c12549\c12549;\csgenericrgb\c60000\c65882\c72941;
+\csgenericrgb\c52157\c37647\c60392;\csgenericrgb\c99608\c73333\c35686;\csgenericrgb\c33725\c51765\c67843;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs26 \cf2 \cb3 package \cf4 coding_test\cf2 ;\
+\
+import \cf4 java.io.BufferedReader\cf2 ;\
+import \cf4 java.io.IOException\cf2 ;\
+import \cf4 java.io.InputStreamReader\cf2 ;\
+import \cf4 java.util.LinkedList\cf2 ;\
+import \cf4 java.util.StringTokenizer\cf2 ;\
+\
+public class \cf4 Main \{\
+    \cf2 static int 
+\f1\i \cf5 N
+\f0\i0 \cf2 ;\
+    static int 
+\f1\i \cf5 R
+\f0\i0 \cf2 ;\
+    static int 
+\f1\i \cf5 Q
+\f0\i0 \cf2 ;\
+    static \cf4 LinkedList<Integer>[] 
+\f1\i \cf5 tree
+\f0\i0 \cf2 ;\
+    static \cf4 LinkedList<Integer>[] 
+\f1\i \cf5 subTree
+\f0\i0 \cf2 ;\
+    static int\cf4 [] 
+\f1\i \cf5 parent
+\f0\i0 \cf2 ;\
+    static int\cf4 [] 
+\f1\i \cf5 size
+\f0\i0 \cf2 ;\
+\
+    public static void \cf6 main\cf4 (String[] args) \cf2 throws \cf4 IOException \{\
+        BufferedReader br = \cf2 new \cf4 BufferedReader(\cf2 new \cf4 InputStreamReader(System.
+\f1\i \cf5 in
+\f0\i0 \cf4 ))\cf2 ;\
+        \cf4 StringTokenizer st = \cf2 new \cf4 StringTokenizer(br.readLine())\cf2 ;\
+        
+\f1\i \cf5 N 
+\f0\i0 \cf4 = Integer.
+\f1\i parseInt
+\f0\i0 (st.nextToken())\cf2 ;\
+        
+\f1\i \cf5 R 
+\f0\i0 \cf4 = Integer.
+\f1\i parseInt
+\f0\i0 (st.nextToken())\cf2 ;\
+        
+\f1\i \cf5 Q 
+\f0\i0 \cf4 = Integer.
+\f1\i parseInt
+\f0\i0 (st.nextToken())\cf2 ;\
+\
+        
+\f1\i \cf5 tree 
+\f0\i0 \cf4 = \cf2 new \cf4 LinkedList[
+\f1\i \cf5 N 
+\f0\i0 \cf4 + \cf7 1\cf4 ]\cf2 ;\
+        
+\f1\i \cf5 subTree 
+\f0\i0 \cf4 = \cf2 new \cf4 LinkedList[
+\f1\i \cf5 N 
+\f0\i0 \cf4 + \cf7 1\cf4 ]\cf2 ;;\
+        
+\f1\i \cf5 parent 
+\f0\i0 \cf4 = \cf2 new int\cf4 [
+\f1\i \cf5 N 
+\f0\i0 \cf4 + \cf7 1\cf4 ]\cf2 ;\
+        
+\f1\i \cf5 size 
+\f0\i0 \cf4 = \cf2 new int\cf4 [
+\f1\i \cf5 N 
+\f0\i0 \cf4 + \cf7 1\cf4 ]\cf2 ;\
+\
+        for\cf4 (\cf2 int \cf4 i = \cf7 1\cf2 ; \cf4 i <= 
+\f1\i \cf5 N
+\f0\i0 \cf2 ; \cf4 i++)\{\
+            
+\f1\i \cf5 tree
+\f0\i0 \cf4 [i] = \cf2 new \cf4 LinkedList<Integer>()\cf2 ;\
+            
+\f1\i \cf5 subTree
+\f0\i0 \cf4 [i] = \cf2 new \cf4 LinkedList<Integer>()\cf2 ;\
+        \cf4 \}\
+\
+        \cf2 for\cf4 (\cf2 int \cf4 i = \cf7 0\cf2 ; \cf4 i < 
+\f1\i \cf5 N 
+\f0\i0 \cf4 - \cf7 1\cf2 ; \cf4 i++)\{\
+            st = \cf2 new \cf4 StringTokenizer(br.readLine())\cf2 ;\
+            int \cf4 u\cf2 , \cf4 v\cf2 ;\
+            \cf4 u = Integer.
+\f1\i parseInt
+\f0\i0 (st.nextToken())\cf2 ;\
+            \cf4 v = Integer.
+\f1\i parseInt
+\f0\i0 (st.nextToken())\cf2 ;\
+\
+            
+\f1\i \cf5 tree
+\f0\i0 \cf4 [u].add(v)\cf2 ;\
+            
+\f1\i \cf5 tree
+\f0\i0 \cf4 [v].add(u)\cf2 ;\
+        \cf4 \}\
+\
+        
+\f1\i makeTree
+\f0\i0 (
+\f1\i \cf5 R
+\f0\i0 \cf2 , \cf4 -\cf7 1\cf4 )\cf2 ;\
+        
+\f1\i \cf4 countSub
+\f0\i0 (
+\f1\i \cf5 R
+\f0\i0 \cf4 )\cf2 ;\
+\
+        for\cf4 (\cf2 int \cf4 i = \cf7 0\cf2 ; \cf4 i < 
+\f1\i \cf5 Q
+\f0\i0 \cf2 ; \cf4 i++)\{\
+            \cf2 int \cf4 q = Integer.
+\f1\i parseInt
+\f0\i0 (br.readLine())\cf2 ;\
+\
+            \cf4 System.
+\f1\i \cf5 out
+\f0\i0 \cf4 .println(
+\f1\i \cf5 size
+\f0\i0 \cf4 [q])\cf2 ;\
+        \cf4 \}\
+        br.close()\cf2 ;\
+    \cf4 \}\
+\
+    \cf2 static void \cf6 makeTree\cf4 (\cf2 int \cf4 cur\cf2 , int \cf4 p)\{\
+        \cf2 for\cf4 (\cf2 int \cf4 next : 
+\f1\i \cf5 tree
+\f0\i0 \cf4 [cur])\{\
+            \cf2 if\cf4 (next != p)\{\
+                
+\f1\i \cf5 subTree
+\f0\i0 \cf4 [cur].add(next)\cf2 ;\
+                
+\f1\i \cf5 parent
+\f0\i0 \cf4 [next] = cur\cf2 ;\
+                
+\f1\i \cf4 makeTree
+\f0\i0 (next\cf2 , \cf4 cur)\cf2 ;\
+            \cf4 \}\
+        \}\
+    \}\
+\
+    \cf2 static void \cf6 countSub\cf4 (\cf2 int \cf4 cur)\{\
+        
+\f1\i \cf5 size
+\f0\i0 \cf4 [cur] = \cf7 1\cf2 ;\
+\
+        for\cf4 (\cf2 int \cf4 next : 
+\f1\i \cf5 subTree
+\f0\i0 \cf4 [cur])\{\
+            
+\f1\i countSub
+\f0\i0 (next)\cf2 ;\
+            
+\f1\i \cf5 size
+\f0\i0 \cf4 [cur] += 
+\f1\i \cf5 size
+\f0\i0 \cf4 [next]\cf2 ;\
+        \cf4 \}\
+    \}\
+\}\
+\
+}
