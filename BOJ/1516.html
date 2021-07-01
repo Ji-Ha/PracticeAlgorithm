@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2022.3">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #bf6426; background-color: #202020}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #bf6426; background-color: #202020; min-height: 16.0px}
+  </style>
+</head>
+<body>
+<p class="p1">package coding_test;</p>
+<p class="p2"><br></p>
+<p class="p1">import java.io.BufferedReader;</p>
+<p class="p1">import java.io.IOException;</p>
+<p class="p1">import java.io.InputStreamReader;</p>
+<p class="p1">import java.util.ArrayList;</p>
+<p class="p1">import java.util.LinkedList;</p>
+<p class="p1">import java.util.Queue;</p>
+<p class="p1">import java.util.StringTokenizer;</p>
+<p class="p2"><br></p>
+<p class="p1">public class Main {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>static int N;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>static int[] build;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>static ArrayList&lt;Queue&lt;Integer&gt;&gt; routine = new ArrayList&lt;&gt;();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>public static void main(String[] args) throws IOException {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</p>
+<p class="p1"><span class="Apple-converted-space">        </span>StringTokenizer st;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>N = Integer.parseInt(br.readLine());</p>
+<p class="p1"><span class="Apple-converted-space">        </span>build = new int[N];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>for(int i = 0; i &lt; N; i++){</p>
+<p class="p1"><span class="Apple-converted-space">            </span>st = new StringTokenizer(br.readLine());</p>
+<p class="p1"><span class="Apple-converted-space">            </span>Queue &lt;Integer&gt; q = new LinkedList&lt;&gt;();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>while(true){</p>
+<p class="p1"><span class="Apple-converted-space">                </span>int temp = Integer.parseInt(st.nextToken());</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if(temp == -1) break;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>q.add(temp);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>routine.add(q);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>int k = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>for(Queue&lt;Integer&gt; r : routine){</p>
+<p class="p1"><span class="Apple-converted-space">            </span>build[k] = r.poll();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>k++;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>for(int j = 0; j &lt; N; j++){</p>
+<p class="p1"><span class="Apple-converted-space">            </span>pathBuild(j);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>System.out.println(build[j]);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>static void pathBuild(int num){</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Queue&lt;Integer&gt; q = routine.get(num);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if(q.isEmpty()) return;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>int res = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>int temp;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>while(!q.isEmpty()){</p>
+<p class="p1"><span class="Apple-converted-space">            </span>temp = q.poll();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>pathBuild(temp - 1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>res = Math.max(res, build[temp - 1]);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>build[num] += res;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1">}</p>
+</body>
+</html>
