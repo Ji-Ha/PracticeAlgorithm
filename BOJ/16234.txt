@@ -1,0 +1,104 @@
+package  coding_test;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+    static int N, L, R;
+    static int[][] nations;
+    static boolean[][] visited;
+    static Queue<Pointer> q;
+    static List<Pointer> group;
+    static int[] dx = {0, 0, 1, -1};
+    static int[] dy = {1, -1, 0, 0};
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        L = Integer.parseInt(st.nextToken());
+        R = Integer.parseInt(st.nextToken());
+        nations = new int[N][N];
+        q = new LinkedList<>();
+        group = new LinkedList<>();
+
+        for(int i = 0; i < N; i++){
+            st = new StringTokenizer(br.readLine());
+            for(int j = 0; j < N; j++)
+                nations[i][j] = Integer.parseInt(st.nextToken());
+        }
+        
+        System.out.println(BFS());
+    }
+
+    static int BFS(){
+        int count = 0;
+        boolean isMove = false;
+
+        while(true){
+            visited = new boolean[N][N];
+            isMove = false;
+
+            for(int i = 0; i < N; i++){
+                for(int j = 0; j < N; j++){
+                    if(visited[i][j]) continue;
+                    if(unionable(i, j)) isMove = true;
+                }
+            }
+            if(isMove) count++;
+            else return count;
+        }
+    }
+
+    static boolean unionable(int x, int y){
+        q.clear();
+        group.clear();
+
+        q.add(new Pointer(x, y));
+        group.add(new Pointer(x, y));
+        visited[x][y] = true;
+
+        int sum = nations[x][y];
+
+        while(!q.isEmpty()){
+            Pointer target = q.poll();
+
+            for(int i = 0; i < 4; i++){
+                int nx = target.x + dx[i];
+                int ny = target.y + dy[i];
+                if(nx < 0 || ny < 0 || nx >=N || ny >= N || visited[nx][ny]) continue;
+
+                int diff = Math.abs(nations[target.x][target.y] - nations[nx][ny]);
+                if(diff < L || diff > R) continue;
+
+                sum += nations[nx][ny];
+                q.add(new Pointer(nx, ny));
+                group.add(new Pointer(nx, ny));
+                visited[nx][ny] = true;
+            }
+        }
+        if(group.size() == 1) return false;
+        else {
+            int temp = sum / group.size();
+            for (Pointer p : group) {
+                nations[p.x][p.y] = temp;
+            }
+            return true;
+        }
+    }
+
+    static class Pointer{
+        int x;
+        int y;
+
+        Pointer(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+    }
+}

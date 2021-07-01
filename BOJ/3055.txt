@@ -1,0 +1,115 @@
+package coding_test;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+    static int R, C;
+    static char[][] map;
+    static boolean[][] goVisit, waterVisit;
+    static Queue<Pointer> waters, gosudals;
+    static int[] dx = {0, 0, 1, -1};
+    static int[] dy = {1, -1, 0, 0};
+    static Pointer fin;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        R = Integer.parseInt(st.nextToken());
+        C = Integer.parseInt(st.nextToken());
+        map = new char[R][C];
+        goVisit = new boolean[R][C];
+        waterVisit = new boolean[R][C];
+
+        waters = new LinkedList<>();
+        gosudals = new LinkedList<>();
+
+        for(int i = 0; i < R; i++){
+            st = new StringTokenizer(br.readLine());
+            map[i] = st.nextToken().toCharArray();
+            for(int j = 0; j < C; j++){
+                if(map[i][j] == 'D') fin = new Pointer(i, j);
+                if(map[i][j] == '*'){
+                    waters.add(new Pointer(i, j));
+                    waterVisit[i][j] = true;
+                }
+                if(map[i][j] == 'S'){
+                    gosudals.add(new Pointer(i, j));
+                    goVisit[i][j] = true;
+                }
+            }
+        }
+
+        int ans = BFS();
+        System.out.println(ans == 0 ? "KAKTUS" : ans);
+    }
+
+    static int BFS(){
+        int count = 0;
+
+        while (!gosudals.isEmpty()){
+            waterUp();
+            count++;
+
+            int len = gosudals.size();
+            for(int i = 0; i < len; i++){
+                Pointer gosudal = gosudals.poll();
+                for(int j = 0; j < 4; j++){
+                    int nx = gosudal.x + dx[j];
+                    int ny = gosudal.y + dy[j];
+
+                    if(isValid(nx, ny)){
+                        if(nx == fin.x && ny == fin.y) return count;
+
+                        if(map[nx][ny] == '.' && !goVisit[nx][ny]){
+                            goVisit[nx][ny] = true;
+                            map[nx][ny] = 'S';
+                            gosudals.add(new Pointer(nx, ny));
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    static void waterUp(){
+        int len = waters.size();
+
+        for(int i = 0; i < len; i++){
+            Pointer water = waters.poll();
+
+            for(int j = 0; j < 4; j++){
+                int nx = water.x + dx[j];
+                int ny = water.y + dy[j];
+
+                if(isValid(nx, ny)){
+                    if(map[nx][ny] != 'X' && map[nx][ny] != 'D' && !waterVisit[nx][ny]){
+                        map[nx][ny] = '*';
+                        waters.add(new Pointer(nx, ny));
+                        waterVisit[nx][ny] = true;
+                    }
+                }
+            }
+        }
+    }
+
+    static boolean isValid(int x, int y){
+        if(x < 0 || x >= R || y < 0 || y >= C) return false;
+        return true;
+    }
+
+    static class Pointer{
+        int x;
+        int y;
+        Pointer(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+    }
+}
