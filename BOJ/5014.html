@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2022.3">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #99a8ba; background-color: #202020}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #bf6426; background-color: #202020; min-height: 16.0px}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #bf6426; background-color: #202020}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #6d6d6d; background-color: #202020; min-height: 16.0px}
+    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #85609a; background-color: #202020}
+    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #99a8ba; background-color: #202020; min-height: 16.0px}
+    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; color: #587647; background-color: #202020}
+    span.s1 {color: #bf6426}
+    span.s2 {color: #99a8ba}
+    span.s3 {color: #85609a}
+    span.s4 {color: #febb5b}
+    span.s5 {color: #6d6d6d}
+    span.s6 {font: 13.0px 'Apple SD Gothic Neo'; color: #6d6d6d}
+    span.s7 {color: #5684ad}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">package </span>coding_test<span class="s1">;</span></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="s1">import </span>java.io.BufferedReader<span class="s1">;</span></p>
+<p class="p1"><span class="s1">import </span>java.io.IOException<span class="s1">;</span></p>
+<p class="p1"><span class="s1">import </span>java.io.InputStreamReader<span class="s1">;</span></p>
+<p class="p1"><span class="s1">import </span>java.util.LinkedList<span class="s1">;</span></p>
+<p class="p1"><span class="s1">import </span>java.util.Queue<span class="s1">;</span></p>
+<p class="p1"><span class="s1">import </span>java.util.StringTokenizer<span class="s1">;</span></p>
+<p class="p2"><br></p>
+<p class="p3">public class <span class="s2">Main{</span></p>
+<p class="p3"><span class="s2"><span class="Apple-converted-space">    </span></span>static int <span class="s3"><i>F</i></span>, <span class="s3"><i>S</i></span>, <span class="s3"><i>G</i></span>, <span class="s3"><i>U</i></span>, <span class="s3"><i>D</i></span>;</p>
+<p class="p3"><span class="Apple-converted-space">    </span>static int<span class="s2">[] </span><span class="s3"><i>visited</i></span>;</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="Apple-converted-space">    </span>public static void <span class="s4">main</span><span class="s2">(String[] args) </span>throws <span class="s2">IOException {</span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>BufferedReader br = <span class="s1">new </span>BufferedReader(<span class="s1">new </span>InputStreamReader(System.<span class="s3"><i>in</i></span>))<span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span>StringTokenizer st = <span class="s1">new </span>StringTokenizer(br.readLine())<span class="s1">;</span></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span><span class="s3"><i>F </i></span>= Integer.<i>parseInt</i>(st.nextToken())<span class="s1">; </span><span class="s5">// </span><span class="s6">전체</span><span class="s5"> </span><span class="s6">층</span></p>
+<p class="p1"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s3"><i>S </i></span>= Integer.<i>parseInt</i>(st.nextToken())<span class="s1">; </span><span class="s5">// </span><span class="s6">시작</span><span class="s5"> </span><span class="s6">층</span></p>
+<p class="p1"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s3"><i>G </i></span>= Integer.<i>parseInt</i>(st.nextToken())<span class="s1">; </span><span class="s5">// </span><span class="s6">가야할</span><span class="s5"> </span><span class="s6">층</span></p>
+<p class="p1"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s3"><i>U </i></span>= Integer.<i>parseInt</i>(st.nextToken())<span class="s1">; </span><span class="s5">// </span><span class="s6">올라갈</span><span class="s5"> </span><span class="s6">수</span><span class="s5"> </span><span class="s6">있는</span><span class="s5"> </span><span class="s6">층</span><span class="s5"> </span><span class="s6">수</span></p>
+<p class="p1"><span class="s5"><span class="Apple-converted-space">        </span></span><span class="s3"><i>D </i></span>= Integer.<i>parseInt</i>(st.nextToken())<span class="s1">; </span><span class="s5">// </span><span class="s6">내려갈</span><span class="s5"> </span><span class="s6">수</span><span class="s5"> </span><span class="s6">있는</span><span class="s5"> </span><span class="s6">층</span><span class="s5"> </span><span class="s6">수</span></p>
+<p class="p4"><br></p>
+<p class="p5"><span class="s5"><span class="Apple-converted-space">        </span></span><i>visited </i><span class="s2">= </span><span class="s1">new int</span><span class="s2">[</span><i>F </i><span class="s2">+ </span><span class="s7">1</span><span class="s2">]</span><span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span></span>System.<span class="s3"><i>out</i></span>.println(<i>bfs</i>())<span class="s1">;</span></p>
+<p class="p3"><span class="Apple-converted-space">    </span><span class="s2">}</span></p>
+<p class="p6"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span><span class="s1">static </span>String <span class="s4">bfs</span>(){</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Queue&lt;Integer&gt; q = <span class="s1">new </span>LinkedList&lt;&gt;()<span class="s1">;</span></p>
+<p class="p3"><span class="Apple-converted-space">        </span><span class="s2">q.add(</span><span class="s3"><i>S</i></span><span class="s2">)</span>;</p>
+<p class="p3"><span class="Apple-converted-space">        </span><span class="s3"><i>visited</i></span><span class="s2">[</span><span class="s3"><i>S</i></span><span class="s2">] = </span><span class="s7">1</span>;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>while </span>(!q.isEmpty()){</p>
+<p class="p1"><span class="Apple-converted-space">            </span><span class="s1">int </span>cur = q.poll()<span class="s1">;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if</span>(cur == <span class="s3"><i>G</i></span>) <span class="s1">return </span>String.<i>valueOf</i>(<span class="s3"><i>visited</i></span>[cur] - <span class="s7">1</span>)<span class="s1">;</span></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if</span>(cur + <span class="s3"><i>U </i></span>&lt;= <span class="s3"><i>F </i></span>&amp;&amp; <span class="s3"><i>visited</i></span>[cur + <span class="s3"><i>U</i></span>] == <span class="s7">0</span>){</p>
+<p class="p1"><span class="Apple-converted-space">                </span><span class="s3"><i>visited</i></span>[cur + <span class="s3"><i>U</i></span>] = <span class="s3"><i>visited</i></span>[cur] + <span class="s7">1</span><span class="s1">;</span></p>
+<p class="p3"><span class="Apple-converted-space">                </span><span class="s2">q.add(cur + </span><span class="s3"><i>U</i></span><span class="s2">)</span>;</p>
+<p class="p3"><span class="Apple-converted-space">            </span><span class="s2">}</span></p>
+<p class="p6"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span><span class="s1">if</span>(cur - <span class="s3"><i>D </i></span>&gt; <span class="s7">0 </span>&amp;&amp; <span class="s3"><i>visited</i></span>[cur - <span class="s3"><i>D</i></span>] == <span class="s7">0</span>){</p>
+<p class="p1"><span class="Apple-converted-space">                </span><span class="s3"><i>visited</i></span>[cur - <span class="s3"><i>D</i></span>] = <span class="s3"><i>visited</i></span>[cur] + <span class="s7">1</span><span class="s1">;</span></p>
+<p class="p3"><span class="Apple-converted-space">                </span><span class="s2">q.add(cur - </span><span class="s3"><i>D</i></span><span class="s2">)</span>;</p>
+<p class="p3"><span class="Apple-converted-space">            </span><span class="s2">}</span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p7"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s1">return </span>"use the stairs"<span class="s1">;</span></p>
+<p class="p3"><span class="Apple-converted-space">    </span><span class="s2">}</span></p>
+<p class="p1">}</p>
+</body>
+</html>
