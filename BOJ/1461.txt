@@ -1,0 +1,47 @@
+package coding_test;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+public class Main {
+    static int N, M, ans, checker = 0;;
+
+    public static void main(String[] args) throws IOException {
+        PriorityQueue<Integer> negative = new PriorityQueue<>();
+        PriorityQueue<Integer> positive = new PriorityQueue<>(Collections.reverseOrder());
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+
+        st = new StringTokenizer(br.readLine());
+        int value;
+        for(int i = 0; i < N; i++) {
+            value = Integer.parseInt(st.nextToken());
+            checker = Math.max(checker, Math.abs(value));
+            if(value < 0) negative.add(value);
+            else positive.add(value);
+        }
+        bookHandler(negative);
+        bookHandler(positive);
+        System.out.println(ans);
+    }
+    static void bookHandler(PriorityQueue<Integer> books) {
+        while(N > 0 && !books.isEmpty()) {
+            if(Math.abs(books.peek()) == checker) {
+                ans += Math.abs(books.peek());
+                checker = 0;
+            }
+            else ans += Math.abs(books.peek())*2;
+            for(int i = 0; i < M; i++) {
+                if(books.isEmpty()) break;
+                books.poll();
+            }
+        }
+    }
+}
