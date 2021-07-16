@@ -1,0 +1,73 @@
+package coding_test;
+
+import java.awt.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.StringTokenizer;
+
+public class Main {
+    static int N, ans = 0;
+    static ArrayList<Point> flowers = new ArrayList<>();
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        N = Integer.parseInt(br.readLine());
+
+        int month, day;
+        int start, end;
+        for(int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            month = Integer.parseInt(st.nextToken());
+            day = Integer.parseInt(st.nextToken());
+            start = month * 100 + day;
+            month = Integer.parseInt(st.nextToken());
+            day = Integer.parseInt(st.nextToken());
+            end = month * 100 + day;
+            flowers.add(new Point(start, end));
+        }
+
+        Collections.sort(flowers, new Comparator<Point>() {
+            @Override
+            public int compare(Point o1, Point o2) {
+                if(o1.x == o2.x) return o1.y - o2.y;
+                return o1.x - o2.x;
+            }
+        });
+
+        find();
+        System.out.println(ans);
+
+    }
+
+    static void find() {
+        boolean flag = false;
+        int current = 301;
+        //주어진 수가 1201을 넘으면 할필요가 없다.
+        while(current < 1201) {
+            int max = current;
+            // 기존 날짜보다 먼저 피는 친구들 중 가장 오래가는 친구 찾기.
+            for(Point flower : flowers) {
+                if(flower.x <= current && flower.y > max) {
+                    max = flower.y;
+                    flag = true;
+                }
+            }
+            //그런 친구가 있어 ? 그러면 하나 추가하고 그 친구가 이제 current가 되는거야.
+            if(flag) {
+                current = max;
+                flag = false;
+                ans++;
+            }
+            //없으면 꽝. 끝.
+            else {
+                ans = 0;
+                break;
+            }
+        }
+    }
+}
