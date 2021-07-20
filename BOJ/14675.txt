@@ -1,0 +1,27 @@
+package coding_test;
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        int n, q;
+        int[] graph;
+        Scanner s = new Scanner(System.in);
+        n = s.nextInt();
+        graph = new int[n + 1];
+        for(int i = 0; i < n - 1; i++){
+            graph[s.nextInt()]++;
+            graph[s.nextInt()]++;
+        }
+
+        q = s.nextInt();
+
+        for(int i = 0; i < q; i++) {
+            int c = s.nextInt();
+            int t = s.nextInt();
+            if(c == 1 && graph[t] == 1) System.out.println("no");
+            else System.out.println("yes");
+        }
+    }
+}
