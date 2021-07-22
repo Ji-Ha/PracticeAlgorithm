@@ -1,0 +1,51 @@
+package coding_test;
+
+import java.awt.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+    static int n;
+    static double ans = 100;
+    static int[] percents = new int[4];
+    static boolean[][] visited = new boolean[30][30];
+    static int[] dx = {1, -1, 0, 0}; // 동, 서, 남 북
+    static int[] dy = {0, 0, 1, -1};
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st  = new StringTokenizer(br.readLine());;
+        n = Integer.parseInt(st.nextToken());
+
+        for(int i = 0 ; i < 4; i++)
+            percents[i] = Integer.parseInt(st.nextToken());
+
+        Point robot = new Point(14, 14);
+
+        DFS(robot, 1, 0);
+        System.out.println(ans * 0.01);
+    }
+
+    public static void DFS(Point now, double percent, int depth) {
+        if(depth == n) return ;
+
+        for(int i = 0; i < 4; i++) {
+            int nx = dx[i] + now.x;
+            int ny = dy[i] + now.y;
+
+            if(visited[nx][ny]) {
+                ans -= percent * percents[i];
+//                System.out.println(nx +" | " + ny);
+//                System.out.println(percent * percents[i]);
+//                System.out.println("answer : " + ans);
+            }
+            if(!visited[nx][ny]) {
+                visited[now.x][now.y] = true;
+                DFS(new Point(nx, ny), percent * percents[i]  * 0.01, depth + 1);
+                visited[now.x][now.y] = false;
+            }
+        }
+    }
+}
