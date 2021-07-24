@@ -35,7 +35,7 @@ public class Main {
         visited[A] = true;
         q.offer(A);
 
-        while(!q.isEmpty() || !visited[B]) {
+        while(!q.isEmpty() && !visited[B]) {
             int now = q.poll();
             int D = (now * 2) % 10000;
             int S = now == 0 ? 9999 : now - 1;
