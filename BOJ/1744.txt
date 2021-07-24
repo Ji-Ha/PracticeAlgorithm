@@ -1,0 +1,52 @@
+package coding_test;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class Main {
+    static int N, ans = 0;
+    static ArrayList<Integer> minus = new ArrayList<>();
+    static ArrayList<Integer> plus = new ArrayList<>();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+
+        for(int i = 0; i < N; i++) {
+            int num = Integer.parseInt(br.readLine());
+            if(num <= 0) minus.add(num);
+            else plus.add(num);
+        }
+        Collections.sort(minus);
+        Collections.sort(plus, Collections.reverseOrder());
+
+        // minus 처리
+        for(int i = 0; i < minus.size(); i++) {
+            int first = minus.get(i);
+            if(i + 1 < minus.size()) {
+                i += 1;
+                int second = minus.get(i);
+                ans += first * second;
+            }
+            else ans += first;
+        }
+
+        for(int i = 0; i < plus.size(); i++) {
+            int first = plus.get(i);
+            if(i + 1 < plus.size()) {
+                i += 1;
+                int second = plus.get(i);
+                if(first + second >= first * second)
+                    ans += first + second;
+                else
+                    ans += first * second;
+            }
+            else
+                ans += first;
+        }
+
+        System.out.println(ans);
+    }
+}
