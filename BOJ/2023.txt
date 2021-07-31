@@ -1,0 +1,50 @@
+package coding_test;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class Main {
+    static int N;
+    static ArrayList<Integer> ans = new ArrayList<>();
+    static boolean[] numbers = new boolean[10];
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+
+        numbers[2] = numbers[3] = numbers[5] = numbers[7] = true;
+        
+        for(int i = 0; i <= 9; i++){
+            if(numbers[i] == true)
+                DFS(1, i);
+        }
+
+        Collections.sort(ans);
+        for(int answer : ans)
+            System.out.println(answer);
+    }
+
+    static boolean isPrime(int num) {
+        for(int i = 2; i < num; i++) {
+            if(num % i == 0) return false;
+        }
+        return true;
+    }
+
+
+    public static void DFS(int length, int num) {
+        if(length == N) {
+            ans.add(num);
+            return ;
+        }
+
+        for(int i = 0; i <= 9; i++) {
+            int next = num * 10 + i;
+            if(isPrime(next))
+                DFS(length + 1, next);
+        }
+    }
+}
