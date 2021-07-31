@@ -1,0 +1,56 @@
+package coding_test;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+    static int N, M, ans = 0;
+    static int[][] graph;
+    static int[] bigger;
+    static int[] smaller;
+    static boolean[] visited;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        graph = new int[N + 1][N + 1];
+        bigger = new int[N + 1];
+        smaller = new int[N + 1];
+
+        int u, v;
+        for(int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine());
+            u = Integer.parseInt(st.nextToken());
+            v = Integer.parseInt(st.nextToken());
+            graph[u][v] = 1; // u > v
+        }
+        for(int i = 1; i <= N; i++) {
+            visited = new boolean[N + 1];
+            DFS(i, i);
+        }
+
+        for(int i = 1; i <= N; i++) {
+            if(bigger[i] >= (N + 1) / 2) ans++;
+            if(smaller[i] >= (N + 1) / 2) ans++;
+        }
+
+        System.out.println(ans);
+    }
+
+    public static void DFS(int start, int now) {
+        visited[now] = true;
+        for(int next = 1; next <= N; next++) {
+            if(!visited[next] && graph[now][next] == 1) {
+                smaller[next]++;
+                bigger[start]++;
+                DFS(start, next);
+            }
+        }
+    }
+
+}
