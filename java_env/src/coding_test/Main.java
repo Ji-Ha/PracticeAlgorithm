@@ -1,44 +1,39 @@
 package coding_test;
 
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
-public class solv {
-    static int n;
-    static LinkedList<Integer>[] friends;
-    static int[][] memo;
-    static Scanner sc = new Scanner(System.in);
+public class Main {
+    static int N, K;
+    static int ans = 0;
+    static int[] students;
 
-    public static void main(String[] args){
-        int u, v;
-        n = sc.nextInt();
-        friends = new LinkedList[n + 1];
-        memo = new int[n + 1][2];
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int limit;
 
-        for(int i = 1; i <= n; i++)
-            friends[i] = new LinkedList<Integer>();
+        N = Integer.parseInt(st.nextToken());
+        K = Integer.parseInt(st.nextToken());
+        students = new int[N];
+        limit = (int) Math.ceil((double) N / K);
 
-        for(int i = 0; i < n - 1; i++){
-            u = sc.nextInt(); v = sc.nextInt();
+        st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < N; i++)
+            students[i] = Integer.parseInt(st.nextToken());
+        Arrays.sort(students);
 
-            friends[u].add(v);
-            friends[v].add(u);
-        }
-        ans(1, -1);
-
-        System.out.println(Math.min(memo[1][0], memo[1][1]));
-    }
-
-    static void ans(int cur, int par){
-        memo[cur][0] = 0;
-        memo[cur][1] = 1;
-
-        for(int next : friends[cur]){
-            if(next != par){
-                ans(next, cur);
-                memo[cur][0] += memo[next][1];
-                memo[cur][1] += Math.min(memo[next][0], memo[next][1]);
+        for(int i = 0; i < N; i += limit) {
+            int end = (limit - 1);
+            if(end + i >= N) {
+                ans += students[N - 1] - students[i];
+                break;
             }
+            ans += students[end + i] - students[i];
         }
+        System.out.println(ans);
     }
 }
