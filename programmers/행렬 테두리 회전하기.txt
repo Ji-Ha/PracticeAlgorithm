@@ -1,0 +1,56 @@
+class Solution {
+    static int ax, ay, bx, by;
+    static int s1, s2;
+    static int[][] board;
+    
+    public int[] solution(int rows, int columns, int[][] queries) {
+        int[] answer = new int[queries.length];
+        
+        board = new int[rows + 1][columns + 1];
+        int count = 1;
+        for(int i = 1; i <= rows; i++) {
+            for(int j = 1; j <= columns; j++)
+                board[i][j] = count++;
+        }
+        
+        for(int i = 0; i < queries.length; i++) {
+            ay = queries[i][0];
+            ax = queries[i][1];
+            by = queries[i][2];
+            bx = queries[i][3];
+            s1 = board[ay][ax];
+            s2 = board[by][bx];
+            answer[i] = turn();
+        }
+        return answer;
+    }
+    
+    static int turn() {
+        int min = Math.min(s1, s2);
+        //왼쪽 숫자들 올리기.
+        for(int i = ay; i < by; i++) {
+            board[i][ax] = board[i + 1][ax];
+            min = Math.min(min, board[i][ax]);
+        }
+        
+        //오른쪽 숫자들 내리기.
+        for(int i = by; i > ay; i--) {
+            board[i][bx] = board[i - 1][bx];
+            min = Math.min(min, board[i][bx]);
+        }
+            
+        
+        for(int i = bx; i > ax; i--){
+            board[ay][i] = board[ay][i - 1];
+            min = Math.min(min, board[ay][i]);
+        }    
+        board[ay][ax + 1] = s1;
+        
+        for(int i = ax; i < bx; i++){
+            board[by][i] = board[by][i + 1];
+            min = Math.min(min, board[by][i]);
+        }
+        board[by][bx - 1] = s2;
+        return min;
+    }
+}
