@@ -1,0 +1,55 @@
+class Solution {
+    static String[] board;
+    static boolean[][] visited;
+    static int[] dx = {0, 0, 1, -1};
+    static int[] dy = {1, -1, 0, 0};
+    static int res;
+    
+    public int[] solution(String[][] places) {
+        int[] answer = {};
+        
+        answer = new int[5];
+        for(int i = 0; i < 5; i++) {
+            board = new String[5];
+            
+            res = 1;
+            for(int j = 0; j < 5; j++) 
+                board[j] = places[i][j];
+            for(int j = 0; j < 5; j++) {
+                for(int k = 0; k < 5; k++) {
+                    visited = new boolean[5][5];
+                    if(board[j].charAt(k) == 'P'){
+                        visited[j][k] = true;
+                        DFS(j, k, j, k);
+                    }
+                }
+            }
+            answer[i] = res;
+        }
+        return answer;
+    }
+    
+    public static void DFS(int tx, int ty, int x, int y) {
+        if(Math.abs(tx - x) + Math.abs(ty - y) > 2) return ;
+        
+        for(int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if(nx < 0 || ny < 0 || nx >= 5 || ny >= 5) continue;
+            int distance = Math.abs(tx - nx) + Math.abs(ty - ny);
+            if(visited[nx][ny]) continue;
+            if(board[nx].charAt(ny) == 'X') 
+                visited[nx][ny] = true;
+            
+            if(board[nx].charAt(ny) == 'P' && distance <= 2) {
+                visited[nx][ny] = true;
+                res = 0;
+                return;
+            }
+            if(!visited[nx][ny]) {
+                visited[nx][ny] = true;
+                DFS(tx, ty, nx, ny);
+            }
+        }
+    }
+}
