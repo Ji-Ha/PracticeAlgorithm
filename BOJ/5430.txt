@@ -1,0 +1,74 @@
+package coding_test;
+
+
+import java.util.ArrayDeque;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+
+public class Main {
+    static ArrayDeque deque;
+    static String command;
+    static StringBuilder sb = new StringBuilder();
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        StringTokenizer st;
+
+        int t = in.nextInt();
+
+        while (t-- > 0) {
+            command = in.next();
+            int n = in.nextInt();
+            st = new StringTokenizer(in.next(), "[],");
+
+            deque = new ArrayDeque<Integer>();
+
+            for(int i = 0; i < n; i++)
+                deque.add(Integer.parseInt(st.nextToken()));
+
+            move();
+        }
+        System.out.println(sb);
+    }
+
+    static void move() {
+        boolean check = true;
+        for(char cmd : command.toCharArray()) {
+            if(cmd == 'R') {
+                check = !check;
+                continue;
+            }
+
+            if(check) {
+                if(deque.pollFirst() == null) {
+                    sb.append("error\n");
+                    return;
+                }
+            }
+            else {
+                if(deque.pollLast() == null) {
+                    sb.append("error\n");
+                    return ;
+                }
+            }
+        }
+        make(check);
+    }
+
+    static void make(boolean check) {
+        sb.append('[');
+        if(deque.size() > 0) {
+            if(check) {
+                sb.append(deque.pollFirst());
+                while(!deque.isEmpty())
+                    sb.append(',').append(deque.pollFirst());
+            }
+            else {
+                sb.append(deque.pollLast());
+                while(!deque.isEmpty())
+                    sb.append(',').append(deque.pollLast());
+            }
+        }
+        sb.append(']').append('\n');
+    }
+}
