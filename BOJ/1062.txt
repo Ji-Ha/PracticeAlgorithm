@@ -1,0 +1,71 @@
+package coding_test;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+    static int N, K, IDX = '0' + 49, ans = 0;
+    static int[] alphabet = new int[26];
+    static String[] lines;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        K = Integer.parseInt(st.nextToken());
+        lines = new String[N];
+
+        if (K < 5) {
+            System.out.println(0);
+            return;
+        } else if (K == 26) {
+            System.out.println(N);
+            return;
+        } else {
+            for (int i = 0; i < N; i++) {
+                lines[i] = br.readLine();
+                lines[i] = lines[i].substring(4, lines[i].length() - 4);
+                for (int j = 0; j < lines[i].length(); j++) {
+                    alphabet[lines[i].charAt(j) - IDX] = -1;
+                }
+            }
+            alphabet['a' - IDX] = 1;
+            alphabet['c' - IDX] = 1;
+            alphabet['n' - IDX] = 1;
+            alphabet['t' - IDX] = 1;
+            alphabet['i' - IDX] = 1;
+            K -= 5;
+
+            combination(0, 0);
+            System.out.println(ans);
+        }
+    }
+
+    public static void combination(int idx, int start) {
+        if (idx == K) {
+            int count = 0;
+            for (int i = 0; i < N; i++) {
+                boolean check = true;
+                for (int j = 0; j < lines[i].length(); j++) {
+                    if (alphabet[lines[i].charAt(j) - IDX] != 1) {
+                        check = false;
+                        break;
+                    }
+                }
+                if (check) count++;
+            }
+            ans = Math.max(ans, count);
+            return;
+        }
+
+        for (int i = start; i < 26; i++) {
+            if (alphabet[i] == -1 || alphabet[i] == 0) {
+                alphabet[i] = 1;
+                combination(idx + 1, i + 1);
+                alphabet[i] = -1;
+            }
+        }
+    }
+}
