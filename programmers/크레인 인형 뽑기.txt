@@ -1,0 +1,33 @@
+import java.util.Stack;
+
+class Solution {
+    static Stack<Integer> q = new Stack<>();
+    static int answer = 0;
+    
+    public int solution(int[][] board, int[] moves) {
+        int now = 0;
+        for(int i : moves) {
+            i = i - 1;
+            now = 0;
+            for(int j = 0; j < board.length; j++) {
+                if(board[j][i] != 0) {
+                    now = board[j][i];
+                    board[j][i] = 0;
+                    push(now);
+                    break;
+                }
+            }
+        }
+        return answer;
+    }
+    
+    public static void push(int now) {
+        System.out.println(now);
+        if(!q.isEmpty() && q.peek() == now) {
+            q.pop();
+            answer+=2;
+        }
+        else 
+            q.add(now);
+    }
+}
