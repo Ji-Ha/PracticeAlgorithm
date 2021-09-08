@@ -27,7 +27,7 @@ public class Main {
         for(int i = 1; i <= 3; i++) {
             for(int j = i * limit; j <= N; j++)
                 dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j - limit] + (sums[j] - sums[j - limit]));
-                // 점화식. 같은 소형기관차 중 전 객실까지의 승객 수가 많은지, 현재 소형기관차 - 1했을 때의 값 + 제한된 객차의 승객 합 이 더 많은지
+            // 점화식. 같은 소형기관차 중 전 객실까지의 승객 수가 많은지, 현재 소형기관차 - 1했을 때의 값 + 제한된 객차의 승객 합 이 더 많은지
         }
 
         System.out.println(dp[3][N]);
